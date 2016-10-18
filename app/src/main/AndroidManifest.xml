@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="jovan.ftn.taskreminder">
+
+    <application
+        android:name="com.activeandroid.app.Application"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.TasksActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="TaskReminder.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="jovan.ftn.taskreminder.entities.Task" />
+
+        <activity
+            android:name=".activities.AddTaskActivity"
+            android:label="@string/title_activity_add_task"
+            android:theme="@style/AppTheme.NoActionBar">
+        <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".activities.TasksActivity" />
+        </activity>
+        <service
+            android:name=".services.AddTaskService"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.TaskDetailActivity"
+            android:label="@string/title_activity_task_detail"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.TasksActivity" />
+        </activity>
+    </application>
+
+</manifest>
