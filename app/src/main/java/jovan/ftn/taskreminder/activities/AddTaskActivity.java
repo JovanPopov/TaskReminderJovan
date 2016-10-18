@@ -1,18 +1,16 @@
 package jovan.ftn.taskreminder.activities;
 
-import android.content.Intent;
+
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import jovan.ftn.taskreminder.R;
-import jovan.ftn.taskreminder.services.AddTaskService;
+import jovan.ftn.taskreminder.entities.Task;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -32,17 +30,28 @@ public class AddTaskActivity extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText edit1 = (EditText ) findViewById(R.id.inputTitle);
-                EditText  edit2 = (EditText ) findViewById(R.id.inputContent);
+                EditText edit1 = (EditText) findViewById(R.id.inputTitle);
+                EditText edit2 = (EditText) findViewById(R.id.inputContent);
+
+                if(TextUtils.isEmpty(edit1.getText().toString())) {
+                    edit1.setError("You must at least enter the title of the task");
+
+                }else {
 
 
-                Intent si = new Intent(getApplicationContext(), AddTaskService.class);
+
+
+            /*    Intent si = new Intent(getApplicationContext(), AddTaskService.class);
                 si.putExtra("title", edit1.getText().toString());
                 Log.i("adapter", " in edit field title is " + edit1.getText());
                 si.putExtra("content", edit2.getText().toString());
-                startService(si);
-                onBackPressed();
+                startService(si);*/
 
+                    Task nt = new Task(edit1.getText().toString(), edit2.getText().toString(), false);
+                    nt.save();
+
+                    onBackPressed();
+                }
             }
         });
 

@@ -1,8 +1,12 @@
 package jovan.ftn.taskreminder.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.activeandroid.content.ContentProvider;
 import com.activeandroid.query.Select;
 
 import java.util.ArrayList;
@@ -25,6 +30,7 @@ import jovan.ftn.taskreminder.adapters.TasksListAdapter;
 import jovan.ftn.taskreminder.entities.Task;
 
 public class TasksActivity extends AppCompatActivity {
+    ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,27 +49,17 @@ public class TasksActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        List notes = new ArrayList<Task>();
-        notes = new Select().from(Task.class).execute();
 
 
 
-        // Create the adapter to convert the array to views
 
-        TasksListAdapter adapter = new TasksListAdapter(this, notes);
 
-        // Attach the adapter to a ListView
 
-        ListView listView = (ListView) findViewById(R.id.taskslist);
+        lv = (ListView) findViewById(R.id.taskslist);
 
-        listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -74,9 +70,19 @@ public class TasksActivity extends AppCompatActivity {
             }
         });
 
-        int ts=new Select().from(Task.class).count();
-        Toast.makeText(this,"Number of tasks: " + String.valueOf(ts)
-                , Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TasksListAdapter adapter = new TasksListAdapter(this, new Select().from(Task.class).execute());
+        lv.setAdapter(adapter);
+
+
+
+
     }
 
     @Override

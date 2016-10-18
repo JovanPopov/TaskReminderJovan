@@ -1,8 +1,13 @@
 package jovan.ftn.taskreminder.adapters;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.activeandroid.content.ContentProvider;
 import com.activeandroid.query.Select;
 
 import java.util.List;
@@ -57,26 +63,30 @@ public class TasksListAdapter extends ArrayAdapter {
 
 
         title.setText(task.getTitle());
+        title.setTextColor(Color.BLACK);
         Log.i("adapter", " title is " + task.getTitle());
         // Return the completed view to render on screen
 
-        final int value = task.isTaskDone()? ContextCompat.getColor(context, R.color.colorAccent):Color.BLACK;
-        title.setTextColor(value);
+        //final int value = task.isTaskDone()? ContextCompat.getColor(context, R.color.colorAccent):Color.BLACK;
+        //title.setTextColor(value);
+        if(task.isTaskDone())  title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         final ImageView image = (ImageView) convertView.findViewById(R.id.imageDone);
+        image.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent));
+
         int iconValue = task.isTaskDone()? R.drawable.ic_check_box_black_24dp:R.drawable.ic_check_box_outline_blank_black_24dp;
         image.setImageResource(iconValue);
-       // image.setTag(task.getId());
+
 
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Long id = (Long) v.getTag();
-                //Task task1 = new Select().from(Task.class).where("id = ?", id).executeSingle();
+
                 if(!task.isTaskDone()){
                     task.setTaskDone(true);
                     task.save();
-                    title.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+                    //title.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+                    title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     image.setImageResource(R.drawable.ic_check_box_black_24dp);
 
                     Toast.makeText(context,"Task is done"
@@ -85,9 +95,9 @@ public class TasksListAdapter extends ArrayAdapter {
                     task.setTaskDone(false);
                     task.save();
 
-                    title.setTextColor(Color.BLACK);
-                    image.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp);
 
+                    image.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp);
+                    title.setPaintFlags(title.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
                     Toast.makeText(context,"Task is not done"
                             , Toast.LENGTH_LONG).show();
                 }
@@ -97,5 +107,6 @@ public class TasksListAdapter extends ArrayAdapter {
         return convertView;
 
     }
+
 
 }

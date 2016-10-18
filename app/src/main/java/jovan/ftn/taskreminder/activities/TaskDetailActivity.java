@@ -25,6 +25,7 @@ public class TaskDetailActivity extends AppCompatActivity {
 
     private Task task;
     private MenuItem menuItem;
+    private ImageView imageDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,6 @@ public class TaskDetailActivity extends AppCompatActivity {
 
 
 
-
         fillData(id);
 
 
@@ -58,6 +58,10 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         TextView content = (TextView) findViewById(R.id.detailContent);
         content.setText(task.getContent());
+
+        imageDone = (ImageView) findViewById(R.id.imageDone);
+
+        if(!task.isTaskDone()) imageDone.setVisibility(View.GONE);
 
 
     }
@@ -88,7 +92,7 @@ public class TaskDetailActivity extends AppCompatActivity {
             if(!task.isTaskDone()){
                 task.setTaskDone(true);
                 task.save();
-
+                imageDone.setVisibility(View.VISIBLE);
                 menuItem.setIcon(R.drawable.ic_check_box_white_24dp);
 
                 Toast.makeText(this,"Task is done"
@@ -96,7 +100,7 @@ public class TaskDetailActivity extends AppCompatActivity {
             }else{
                 task.setTaskDone(false);
                 task.save();
-
+                imageDone.setVisibility(View.GONE);
                 menuItem.setIcon(R.drawable.ic_check_box_outline_blank_white_24dp);
 
                 Toast.makeText(this,"Task is not done"
