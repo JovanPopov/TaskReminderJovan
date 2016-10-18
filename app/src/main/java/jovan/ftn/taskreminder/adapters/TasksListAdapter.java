@@ -64,18 +64,24 @@ public class TasksListAdapter extends ArrayAdapter {
 
         title.setText(task.getTitle());
         title.setTextColor(Color.BLACK);
-        Log.i("adapter", " title is " + task.getTitle());
         // Return the completed view to render on screen
 
         //final int value = task.isTaskDone()? ContextCompat.getColor(context, R.color.colorAccent):Color.BLACK;
         //title.setTextColor(value);
-        if(task.isTaskDone())  title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        //if(task.isTaskDone())  title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        //int va = task.isTaskDone() ? Paint.STRIKE_THRU_TEXT_FLAG : 0;
+        title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+
+
 
         final ImageView image = (ImageView) convertView.findViewById(R.id.imageDone);
         image.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent));
 
         int iconValue = task.isTaskDone()? R.drawable.ic_check_box_black_24dp:R.drawable.ic_check_box_outline_blank_black_24dp;
         image.setImageResource(iconValue);
+
+
 
 
         image.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +109,9 @@ public class TasksListAdapter extends ArrayAdapter {
                 }
             }
         });
+
+        if(!task.isTaskDone())  title.setPaintFlags(title.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+
 
         return convertView;
 
