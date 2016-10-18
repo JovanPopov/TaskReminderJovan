@@ -45,7 +45,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ok"
-        android:id="@+id/okInsert"/>
+        android:id="@+id/okInsert"
+        style="@style/Widget.AppCompat.Button.Colored"
+        />
 
 
 

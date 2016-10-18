@@ -70,7 +70,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.detail_tasks, menu);
         menuItem = menu.findItem(R.id.detail_done);
 
-        int iconValue = task.isTaskDone()? R.drawable.ic_check_box_black_24dp:R.drawable.ic_check_box_outline_blank_black_24dp;
+        int iconValue = task.isTaskDone()? R.drawable.ic_check_box_white_24dp:R.drawable.ic_check_box_outline_blank_white_24dp;
         menuItem.setIcon(iconValue);
 
         return true;
@@ -89,7 +89,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                 task.setTaskDone(true);
                 task.save();
 
-                menuItem.setIcon(R.drawable.ic_check_box_black_24dp);
+                menuItem.setIcon(R.drawable.ic_check_box_white_24dp);
 
                 Toast.makeText(this,"Task is done"
                         , Toast.LENGTH_LONG).show();
@@ -97,7 +97,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                 task.setTaskDone(false);
                 task.save();
 
-                menuItem.setIcon(R.drawable.ic_check_box_outline_blank_black_24dp);
+                menuItem.setIcon(R.drawable.ic_check_box_outline_blank_white_24dp);
 
                 Toast.makeText(this,"Task is not done"
                         , Toast.LENGTH_LONG).show();

@@ -102,6 +102,6 @@ public class TasksActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    
+
 
 }

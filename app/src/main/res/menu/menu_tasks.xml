@@ -6,5 +6,5 @@
         android:title="Add a new task"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_add_black_24dp"/>
+        android:icon="@drawable/ic_add_white_24dp"/>
 </menu>

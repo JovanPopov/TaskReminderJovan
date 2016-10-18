@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/noteName"
         android:padding="8dp"
+        android:textSize="15dp"
         android:layout_weight="1"/>
 
     <ImageView
@@ -19,6 +20,7 @@
         android:id="@+id/imageDone"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:padding="8dp"
         />
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package jovan.ftn.taskreminder.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,7 @@ public class TasksListAdapter extends ArrayAdapter {
         Log.i("adapter", " title is " + task.getTitle());
         // Return the completed view to render on screen
 
-        final int value = task.isTaskDone()? Color.GREEN:Color.RED;
+        final int value = task.isTaskDone()? ContextCompat.getColor(context, R.color.colorAccent):Color.BLACK;
         title.setTextColor(value);
 
         final ImageView image = (ImageView) convertView.findViewById(R.id.imageDone);
@@ -75,7 +76,7 @@ public class TasksListAdapter extends ArrayAdapter {
                 if(!task.isTaskDone()){
                     task.setTaskDone(true);
                     task.save();
-                    title.setTextColor(Color.GREEN);
+                    title.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                     image.setImageResource(R.drawable.ic_check_box_black_24dp);
 
                     Toast.makeText(context,"Task is done"
@@ -84,7 +85,7 @@ public class TasksListAdapter extends ArrayAdapter {
                     task.setTaskDone(false);
                     task.save();
 
-                    title.setTextColor(Color.RED);
+                    title.setTextColor(Color.BLACK);
                     image.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp);
 
                     Toast.makeText(context,"Task is not done"
