@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/inputTitle"
-        android:hint="Note title"
+        android:inputType="textCapSentences"
         />
 
     <TextView
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/inputContent"
-        android:hint="Note content"
+        android:inputType="textCapSentences"
         />
 
     <Button

@@ -23,9 +23,9 @@ public class AddTaskActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        setTitle("Add new task");
+        setTitle("Add a new task");
 
 
         Button okButton = (Button) findViewById(R.id.okInsert);
@@ -41,9 +41,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 Log.i("adapter", " in edit field title is " + edit1.getText());
                 si.putExtra("content", edit2.getText().toString());
                 startService(si);
-
-                Intent intent = new Intent(getApplicationContext(), TasksActivity.class);
-                startActivity(intent);
+                onBackPressed();
 
             }
         });

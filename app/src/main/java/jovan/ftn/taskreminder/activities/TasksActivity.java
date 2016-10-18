@@ -83,7 +83,7 @@ public class TasksActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-       // getMenuInflater().inflate(R.menu.menu_tasks, menu);
+        getMenuInflater().inflate(R.menu.menu_tasks, menu);
         return true;
     }
 
@@ -95,34 +95,13 @@ public class TasksActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.add_task) {
+            Intent intent = new Intent(getApplicationContext(), AddTaskActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-/*    public void myClickHandler(View v)
-    {
-
-        //reset all the listView items background colours
-
-        //before we set the clicked one..
-
-
-
-
-        //get the row the clicked button is in
-        LinearLayout vwParentRow = (LinearLayout)v.getParent();
-
-        TextView child = (TextView)vwParentRow.getChildAt(0);
-        ImageView imgChild = (ImageView)vwParentRow.getChildAt(1);
-        imgChild.setImageResource(R.drawable.ic_check_box_black_24dp);
-
-
-
-
-        vwParentRow.refreshDrawableState();
-    }*/
+    
 
 }

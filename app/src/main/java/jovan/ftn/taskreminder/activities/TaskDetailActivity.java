@@ -1,9 +1,11 @@
 package jovan.ftn.taskreminder.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -31,7 +33,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Bundle extras = getIntent().getExtras();
         long id = extras.getLong("id");
@@ -104,11 +106,37 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         }else if (id == R.id.detail_delete){
 
-            task.delete();
-            Toast.makeText(this,"Task deleted"
-                    , Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getApplicationContext(), TasksActivity.class);
-            startActivity(intent);
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(
+                    this);
+            alert.setTitle("Confirm action");
+            alert.setMessage("Are you sure you want to delete this task?");
+            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //do your work here
+                    task.delete();
+                    Toast.makeText(getApplicationContext(),"Task deleted"
+                            , Toast.LENGTH_LONG).show();
+
+                    dialog.dismiss();
+                    onBackPressed();
+                }
+            });
+            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    dialog.dismiss();
+                }
+            });
+
+            alert.show();
+
+
+
         }
 
         return super.onOptionsItemSelected(item);
