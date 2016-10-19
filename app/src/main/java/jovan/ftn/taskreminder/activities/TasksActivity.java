@@ -55,8 +55,7 @@ public class TasksActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddTaskActivity.class);
-                startActivity(intent);
+                addTask();
             }
         });
 
@@ -179,8 +178,7 @@ public class TasksActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.add_task) {
-            Intent intent = new Intent(getApplicationContext(), AddTaskActivity.class);
-            startActivity(intent);
+           addTask();
         }
 
         return super.onOptionsItemSelected(item);
@@ -192,4 +190,10 @@ public class TasksActivity extends AppCompatActivity {
         super.onDestroy();
         mResolver.unregisterContentObserver(mObserver);
     }
+
+    private void addTask(){
+        Intent intent = new Intent(getApplicationContext(), AddTaskActivity.class);
+        startActivity(intent);
+    }
+
 }
