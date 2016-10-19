@@ -1,6 +1,7 @@
 package jovan.ftn.taskreminder.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 
 import jovan.ftn.taskreminder.R;
 import jovan.ftn.taskreminder.entities.Task;
+import jovan.ftn.taskreminder.services.AddTaskService;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -41,14 +43,13 @@ public class AddTaskActivity extends AppCompatActivity {
 
 
 
-            /*    Intent si = new Intent(getApplicationContext(), AddTaskService.class);
+                Intent si = new Intent(getApplicationContext(), AddTaskService.class);
                 si.putExtra("title", edit1.getText().toString());
-                Log.i("adapter", " in edit field title is " + edit1.getText());
                 si.putExtra("content", edit2.getText().toString());
-                startService(si);*/
+                startService(si);
 
-                    Task nt = new Task(edit1.getText().toString(), edit2.getText().toString(), false);
-                    nt.save();
+                    //Task nt = new Task(edit1.getText().toString(), edit2.getText().toString(), false);
+                    //nt.save();
 
                     onBackPressed();
                 }

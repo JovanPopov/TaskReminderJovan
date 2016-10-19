@@ -41,6 +41,12 @@
         <service
             android:name=".services.AddTaskService"
             android:exported="false" />
+        <service
+            android:name=".services.DeleteTaskService"
+            android:exported="false" />
+        <service
+            android:name=".services.ChangeTaskStateService"
+            android:exported="false" />
 
         <activity
             android:name=".activities.TaskDetailActivity"

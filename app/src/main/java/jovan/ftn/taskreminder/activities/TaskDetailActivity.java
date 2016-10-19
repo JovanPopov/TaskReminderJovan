@@ -1,7 +1,9 @@
 package jovan.ftn.taskreminder.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,12 +22,15 @@ import com.activeandroid.query.Select;
 
 import jovan.ftn.taskreminder.R;
 import jovan.ftn.taskreminder.entities.Task;
+import jovan.ftn.taskreminder.services.ChangeTaskStateService;
+import jovan.ftn.taskreminder.services.DeleteTaskService;
 
 public class TaskDetailActivity extends AppCompatActivity {
 
     private Task task;
     private MenuItem menuItem;
     private ImageView imageDone;
+    private long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +40,13 @@ public class TaskDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         Bundle extras = getIntent().getExtras();
-        long id = extras.getLong("id");
-        task = new Select().from(Task.class).where("id = ?", id).executeSingle();
+        id = extras.getLong("id");
+        //task = new Select().from(Task.class).where("id = ?", id).executeSingle();
 
-        setTitle(task.getTitle());
+        new loadData().execute();
 
 
-
-        fillData(id);
 
 
 
@@ -89,17 +91,22 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.detail_done) {
+
+            Intent si = new Intent(getApplicationContext(), ChangeTaskStateService.class);
+            si.putExtra("id", task.getId());
+            startService(si);
+
             if(!task.isTaskDone()){
-                task.setTaskDone(true);
-                task.save();
+             /*   task.setTaskDone(true);
+                task.save();*/
                 imageDone.setVisibility(View.VISIBLE);
                 menuItem.setIcon(R.drawable.ic_check_box_white_24dp);
 
                 Toast.makeText(this,"Task is done"
                         , Toast.LENGTH_LONG).show();
             }else{
-                task.setTaskDone(false);
-                task.save();
+               /* task.setTaskDone(false);
+                task.save();*/
                 imageDone.setVisibility(View.GONE);
                 menuItem.setIcon(R.drawable.ic_check_box_outline_blank_white_24dp);
 
@@ -120,9 +127,12 @@ public class TaskDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //do your work here
-                    task.delete();
-                    Toast.makeText(getApplicationContext(),"Task deleted"
-                            , Toast.LENGTH_LONG).show();
+                    Intent si = new Intent(getApplicationContext(), DeleteTaskService.class);
+                    si.putExtra("id", task.getId());
+                    startService(si);
+
+                    //task.delete();
+
 
                     dialog.dismiss();
                     onBackPressed();
@@ -144,6 +154,26 @@ public class TaskDetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class loadData extends AsyncTask<Void, Void, Void> {
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            task = new Select().from(Task.class).where("id = ?", id).executeSingle();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            setTitle(task.getTitle());
+            fillData(id);
+
+
+        }
     }
 
 

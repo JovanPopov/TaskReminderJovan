@@ -1,6 +1,7 @@
 package jovan.ftn.taskreminder.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -24,6 +25,7 @@ import java.util.List;
 
 import jovan.ftn.taskreminder.R;
 import jovan.ftn.taskreminder.entities.Task;
+import jovan.ftn.taskreminder.services.ChangeTaskStateService;
 
 import static android.R.attr.data;
 
@@ -88,25 +90,31 @@ public class TasksListAdapter extends ArrayAdapter {
             @Override
             public void onClick(View v) {
 
+                Intent si = new Intent(context, ChangeTaskStateService.class);
+                si.putExtra("id", task.getId());
+                context.startService(si);
+
+
+/*
                 if(!task.isTaskDone()){
                     task.setTaskDone(true);
                     task.save();
                     //title.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-                    title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+              *//*      title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     image.setImageResource(R.drawable.ic_check_box_black_24dp);
 
                     Toast.makeText(context,"Task is done"
-                            , Toast.LENGTH_LONG).show();
+                            , Toast.LENGTH_LONG).show();*//*
                 }else{
                     task.setTaskDone(false);
                     task.save();
 
 
-                    image.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp);
+                  *//*  image.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp);
                     title.setPaintFlags(title.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
                     Toast.makeText(context,"Task is not done"
-                            , Toast.LENGTH_LONG).show();
-                }
+                            , Toast.LENGTH_LONG).show();*//*
+                }*/
             }
         });
 

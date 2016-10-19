@@ -1,8 +1,13 @@
 package jovan.ftn.taskreminder.activities;
 
+import android.accounts.Account;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -20,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.activeandroid.content.ContentProvider;
+import com.activeandroid.loaders.ModelLoader;
 import com.activeandroid.query.Select;
 
 import java.util.ArrayList;
@@ -30,7 +36,13 @@ import jovan.ftn.taskreminder.adapters.TasksListAdapter;
 import jovan.ftn.taskreminder.entities.Task;
 
 public class TasksActivity extends AppCompatActivity {
-    ListView lv;
+
+    private TasksListAdapter mAdapter;
+    private ListView lv;
+    private ContentResolver mResolver;
+    private ContentObserver mObserver;
+    private PostLoader mLoader;
+    private Account mAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +68,8 @@ public class TasksActivity extends AppCompatActivity {
 
 
         lv = (ListView) findViewById(R.id.taskslist);
-
+        mAdapter = new TasksListAdapter(this,  new ArrayList<Task>());
+        lv.setAdapter(mAdapter);
 
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -70,15 +83,79 @@ public class TasksActivity extends AppCompatActivity {
             }
         });
 
+        mLoader = new PostLoader();
+        getSupportLoaderManager().initLoader(0, null, mLoader);
+
+
+        mResolver = getContentResolver();
+        mObserver = new ContentObserver(new Handler(getMainLooper()))
+        {
+            @Override
+            public void onChange(boolean selfChange)
+            {
+                onChange(selfChange, null);
+            }
+
+
+            @Override
+            public void onChange(boolean selfChange, Uri changeUri)
+            {
+                Bundle settingsBundle = new Bundle();
+                ContentResolver.requestSync(mAccount, "jovan.ftn.taskreminder.provider", settingsBundle);
+            }
+        };
+
+        mResolver.registerContentObserver(createUri(), true, mObserver);
+
+
+
 
     }
+
+    public Uri createUri()
+    {
+        StringBuilder uri = new StringBuilder();
+        uri.append("content://");
+        uri.append(getPackageName());
+        uri.append("/");
+        return Uri.parse(uri.toString());
+    }
+
+
+    class PostLoader implements LoaderManager.LoaderCallbacks<List<Task>>
+    {
+
+        @Override
+        public Loader<List<Task>> onCreateLoader(int id, Bundle args)
+        {
+            return new ModelLoader<Task>(TasksActivity.this, Task.class, true);
+        }
+
+
+        @Override
+        public void onLoadFinished(Loader<List<Task>> loader, List<Task> data)
+        {
+            mAdapter.clear();
+            mAdapter.addAll(data);
+            mAdapter.notifyDataSetChanged();
+
+        }
+
+
+        @Override
+        public void onLoaderReset(Loader<List<Task>> loader)
+        {
+            mAdapter.clear();
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        TasksListAdapter adapter = new TasksListAdapter(this, new Select().from(Task.class).execute());
-        lv.setAdapter(adapter);
 
 
 
@@ -109,5 +186,10 @@ public class TasksActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        mResolver.unregisterContentObserver(mObserver);
+    }
 }
