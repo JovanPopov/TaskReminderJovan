@@ -39,10 +39,8 @@ public class TaskDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
         Bundle extras = getIntent().getExtras();
         id = extras.getLong("id");
-        //task = new Select().from(Task.class).where("id = ?", id).executeSingle();
 
         new loadData().execute();
 
@@ -97,16 +95,12 @@ public class TaskDetailActivity extends AppCompatActivity {
             startService(si);
 
             if(!task.isTaskDone()){
-             /*   task.setTaskDone(true);
-                task.save();*/
                 imageDone.setVisibility(View.VISIBLE);
                 menuItem.setIcon(R.drawable.ic_check_box_white_24dp);
 
                 Toast.makeText(this,"Task is done"
                         , Toast.LENGTH_LONG).show();
             }else{
-               /* task.setTaskDone(false);
-                task.save();*/
                 imageDone.setVisibility(View.GONE);
                 menuItem.setIcon(R.drawable.ic_check_box_outline_blank_white_24dp);
 
@@ -131,7 +125,6 @@ public class TaskDetailActivity extends AppCompatActivity {
                     si.putExtra("id", task.getId());
                     startService(si);
 
-                    //task.delete();
 
 
                     dialog.dismiss();
