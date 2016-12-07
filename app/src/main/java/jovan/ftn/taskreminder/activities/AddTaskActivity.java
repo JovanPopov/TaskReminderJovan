@@ -23,7 +23,6 @@ public class AddTaskActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         setTitle("Add a new task");
 
@@ -47,9 +46,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 si.putExtra("title", edit1.getText().toString());
                 si.putExtra("content", edit2.getText().toString());
                 startService(si);
-
-                    //Task nt = new Task(edit1.getText().toString(), edit2.getText().toString(), false);
-                    //nt.save();
 
                     onBackPressed();
                 }
